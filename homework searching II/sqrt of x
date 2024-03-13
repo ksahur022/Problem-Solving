@@ -9,6 +9,7 @@ class Solution {
             if(num/mid == mid){
                 return mid;
             }
+//mid*mid>num
             else if(mid > num/mid){
                 end = mid-1;
             }
