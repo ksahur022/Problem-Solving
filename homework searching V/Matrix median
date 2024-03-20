@@ -1,0 +1,35 @@
+public class Solution {
+    public int findMedian(ArrayList<ArrayList<Integer>> arr) {
+         int rows = arr.size();
+        int cols = arr.get(0).size();
+
+        int low = 1;
+        int high= Integer.MAX_VALUE;
+
+        while (low < high) {
+            int m= low + (high - low) / 2;
+            int count = 0;
+
+            for (ArrayList<Integer> row : arr) {
+                int left = 0, right = cols - 1;
+                while (left <= right) {
+                    int mid = left + (right - left) / 2;
+                    if (row.get(mid) <= m) {
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+                count += left; 
+            }
+
+            if (count <= (rows * cols) / 2) {
+                low = m + 1; 
+            } else {
+                high = m; 
+            }
+        }
+
+        return low;
+    }
+    }
