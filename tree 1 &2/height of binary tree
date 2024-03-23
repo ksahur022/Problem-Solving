@@ -1,0 +1,12 @@
+public class Solution {
+    public static int heightOfBinaryTree(TreeNode root) {
+        // Write your code here.
+        if(root==null){
+            return 0;
+        }
+        int lh= heightOfBinaryTree(root.left);
+        int rh= heightOfBinaryTree(root.right);
+        int h=Math.max(lh,rh);
+        return h+1;
+    }
+}
