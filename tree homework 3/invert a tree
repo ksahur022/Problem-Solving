@@ -1,0 +1,13 @@
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root==null){
+            return root;
+        }
+        TreeNode leftm=invertTree(root.left);
+        TreeNode rightm=invertTree(root.right);
+        root.right=leftm;
+        root.left=rightm;
+        return root;
+        
+    }
+}
