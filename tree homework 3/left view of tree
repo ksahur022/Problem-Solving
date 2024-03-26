@@ -1,0 +1,21 @@
+public class Solution {
+    public static void printLeftView(TreeNode<Integer> root) {
+        // Write your code here.
+    ArrayList<Integer> arr=new ArrayList<Integer>();
+   
+        leftview(root,arr,0);
+      for(int i=0;i<arr.size();i++){
+          System.out.print(arr.get(i)+" ");
+      }
+    }
+    public static void leftview(TreeNode<Integer> root,ArrayList<Integer> res,int level){
+        if(root==null){
+            return;
+        }
+        if(res.size()==level){
+            res.add(root.data);
+        }
+        leftview(root.left,res,level+1);
+        leftview(root.right,res,level+1);
+    }
+}
