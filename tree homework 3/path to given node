@@ -1,0 +1,23 @@
+public class Solution {
+    public ArrayList<Integer> solve(TreeNode A, int B) {
+        ArrayList<Integer> arr=new ArrayList<>();
+        getpath(A,B,arr);
+        return arr;
+    }
+    public static boolean getpath(TreeNode root,int n,ArrayList<Integer> path){
+        if(root==null){
+            return false;
+        }
+        path.add(root.val);
+        if(root.val==n){
+            return true;
+        }
+        boolean foundleft=getpath(root.left,n,path);
+        boolean foundright=getpath(root.right,n,path);
+        if(foundleft || foundright){
+            return true;
+        }
+        path.remove(path.size()-1);
+        return false;
+    }
+}
