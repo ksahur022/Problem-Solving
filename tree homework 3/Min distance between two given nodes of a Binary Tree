@@ -1,0 +1,55 @@
+class GfG {
+    int findDist(Node root, int a, int b) {
+        // Your code here
+        Node lca=lowestCommonAncestor(root,a,b);
+        int dist1=finddis(lca,a);
+        int dist2=finddis(lca,b);
+        return dist1+dist2;
+    }
+     public Node lowestCommonAncestor(Node root, int p, int q) {
+        if(root==null || root.data==p || root.data==q){
+            return root;
+        }
+        Node leftlca=lowestCommonAncestor(root.left,p,q);
+        Node rightlca=lowestCommonAncestor(root.right,p,q);
+        if(rightlca==null){
+            return leftlca;
+        }
+        else if(leftlca==null){
+            return rightlca;
+        }
+        return root;
+
+
+    
+}
+public int finddis(Node root,int a){
+        if(root==null){
+            return -1;
+        }
+        if(root.data==a){
+            return 0;
+        }
+        int leftdis=finddis(root.left,a);
+        int rightdis=finddis(root.right,a);
+        if(leftdis==-1 && rightdis==-1){
+            return -1;
+        }
+        else if(leftdis==-1){
+            return rightdis+1;
+        }
+        else{
+            return leftdis+1;
+        }
+    }
+    
+}
+
+
+    
+    
+    
+    
+    
+    
+    
