@@ -1,0 +1,40 @@
+import java.util.*;
+
+public class StudentHeights {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n1 = sc.nextInt(); 
+        int n2 = sc.nextInt();
+
+        int[] heights = new int[n1];
+        for (int i = 0; i < n1; i++) {
+            heights[i] =sc.nextInt();
+        }
+
+        Arrays.sort(heights); 
+
+      
+        for (int i = 0; i < n2; i++) {
+            int x = sc.nextInt();
+            int count = n1 - binarySearch(heights, x) ;
+           System.out.println(count);
+        }
+
+        
+    }
+
+    
+    private static int binarySearch(int[] arr, int target) {
+        int low = 0, high = arr.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] >= target) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+}
