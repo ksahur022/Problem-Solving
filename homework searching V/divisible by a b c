@@ -1,0 +1,46 @@
+public class NthDivisibleTerm {
+    public static void main(String[] args) {
+        int a = 2, b = 3, c = 5, N = 10;
+        int result = findNthDivisibleTerm(a, b, c, N);
+        System.out.println(result);    
+    }
+
+    public static int findNthDivisibleTerm(int a, int b, int c, int N) {
+        int low = 1;
+        int high = Integer.MAX_VALUE;
+        int result = 0;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int count = countDivisibleTerms(a, b, c, mid);
+
+            if (count >= N) {
+                result = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return result;
+    }
+
+    public static int countDivisibleTerms(int a, int b, int c, int num) {
+        return num / a + num / b + num / c
+                - num / lcm(a, b)
+                - num / lcm(b, c)
+                - num / lcm(a, c)
+                + num / lcm(lcm(a, b), c);
+    }
+
+    public static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+
+    public static int lcm(int a, int b) {
+        return (a * b) / gcd(a, b);
+    }
+}
