@@ -1,0 +1,66 @@
+class Solution
+{
+    int sumofodd=0;
+    int sumofeven=0;
+	int getLevelDiff(Node root)
+	{
+	    //code here
+	    findLevelDiff(root,1);
+	    return sumofodd-sumofeven;
+	    
+	    
+	}
+	void findLevelDiff(Node root,int level){
+	    if(root==null){
+	        return;
+	    }
+	    if(level%2==0){
+	        sumofeven+=root.data;
+	    }
+	    else{
+	        sumofodd+=root.data;
+	    }
+	    findLevelDiff(root.left,level+1);
+	    findLevelDiff(root.right,level+1);
+	}
+}
+
+
+Approach 2
+
+
+class Solution
+{
+	int getLevelDiff(Node root)
+	{
+	    Queue<Node> que=new LinkedList<>();
+	    ArrayList<Integer> list=new ArrayList<>();
+	    int l=1;
+	    int sumofodd=0;
+	    int sumofeven=0;
+	    que.offer(root);
+	    while(!que.isEmpty()){
+	        int s=que.size();
+	        for(int i=0;i<s;i++){
+	            Node temp=que.poll();
+	            if(l%2!=0){
+	                sumofodd+=temp.data;
+	            }
+	            else{
+	                sumofeven+=temp.data;
+	            }
+	            if(temp.left!=null){
+	                que.offer(temp.left);
+	                
+	            }
+	            if(temp.right!=null){
+	                que.offer(temp.right);
+	                
+	            }
+	        }
+	        l++;
+	    }
+	    return sumofodd-sumofeven;
+	    //code here
+	}
+}
