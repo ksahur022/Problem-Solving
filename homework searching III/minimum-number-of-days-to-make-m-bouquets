@@ -1,0 +1,42 @@
+class Solution {
+    public static int bouquetFormed(int arr[],int mid,int k){
+        int c=0;
+        int n=arr.length;
+        int temp=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]<=mid){
+                temp++;
+            }else{
+                c+=temp/k;
+                temp=0;
+            }
+        }
+        c+=temp/k;
+        return c;
+    }
+    public int minDays(int[] bloomDay, int m, int k) {
+        int n=bloomDay.length;
+        if((m*k)>n){
+            return -1;
+        }
+        int low=Integer.MAX_VALUE;
+        int high=Integer.MIN_VALUE;
+        for(int i:bloomDay){
+            low=Math.min(low,i);
+            high=Math.max(high,i);
+        }
+        int ans=-1;
+        while(low<=high){
+            int mid=(low+high)/2;
+            int bouquet=bouquetFormed(bloomDay,mid,k);
+            if(bouquet>=m){
+                ans=mid;
+                high=mid-1;
+            }
+            else{
+                low=mid+1;
+            }
+        }
+        return ans;
+    }
+}
