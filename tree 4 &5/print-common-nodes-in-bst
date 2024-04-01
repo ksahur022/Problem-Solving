@@ -1,0 +1,43 @@
+//User function Template for Java
+
+
+class Solution{
+	public static ArrayList<Integer> findCommon(Node root1,Node root2){
+        HashSet<Integer> m=new HashSet<>();
+        ArrayList<Integer> arr=new ArrayList<>();
+        inorder1(root1,m);
+        inorder2(root2,m,arr);
+	    return arr;
+	}
+}
+        inorder1(root.left,a1);
+        a1.add(root.data);
+        inorder1(root.right,a1);
+    }
+    public static void inorder2(Node root,ArrayList<Integer> a2){
+        if(root==null){
+            return;
+        }
+        inorder2(root.left,a2);
+        a2.add(root.data);
+        inorder2(root.right,a2);
+    }
+ static void inorder1(Node root,HashSet<Integer> m){
+        if(root==null){
+            return;
+        }
+        inorder1(root.left,m);
+        m.add(root.data);
+        inorder1(root.right,m);
+    }
+    static void inorder2(Node root,HashSet<Integer> m,ArrayList<Integer> arr){
+        if(root==null){
+            return;
+        }
+        inorder2(root.left,m,arr);
+        if(m.contains(root.data)){
+            arr.add(root.data);
+        }
+        inorder2(root.right,m,arr);
+    }
+}
