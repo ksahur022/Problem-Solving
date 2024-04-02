@@ -1,0 +1,30 @@
+import java.util.*;
+
+class Sol {
+public static void main (String[] args){
+
+	int pre[] = new int[]{10,5,6,8,2};
+	int size = pre.length;
+	if (hasOnlyOneChild(pre, size) == true )
+		System.out.println("Yes");
+	else
+		System.out.println("No");
+}
+	
+	public static boolean hasOnlyOneChild(int pre[], int s) {
+	int max = Integer.MAX_VALUE;
+  int min = Integer.MIN_VALUE; 
+	for (int i = 1; i < s; i++) {
+		if (pre[i] < min || pre[i] > max) {
+			return false;
+		}
+		if (pre[i] < pre[i-1]) {
+			max = pre[i-1];
+		} else {
+			min = pre[i-1];
+		}
+	}
+	return true;
+}
+}
+
