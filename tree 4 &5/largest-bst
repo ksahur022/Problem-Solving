@@ -1,0 +1,66 @@
+//User function Template for Java
+
+// class Node  
+// { 
+//     int data; 
+//     Node left, right; 
+   
+//     public Node(int d)  
+//     { 
+//         data = d; 
+//         left = right = null; 
+//     } 
+// }
+
+
+class Solution {
+    
+    static class Info {
+        public int maxi;
+        public int mini;
+        public boolean isBST;
+        public int size;
+        
+        public Info(int maxi, int mini, boolean isBST, int size) {
+            this.maxi = maxi;
+            this.mini = mini;
+            this.isBST = isBST;
+            this.size = size;
+        }
+        
+        public Info() {
+            this.maxi = Integer.MIN_VALUE;
+            this.mini = Integer.MAX_VALUE;
+            this.isBST = true;
+            this.size = 0;
+        }
+    }
+    
+    private static Info solve(Node root, int[] ans) {
+        if(root == null) {
+            return new Info();
+        }
+        
+        Info left = solve(root.left, ans);
+        Info right = solve(root.right, ans);
+        
+        int mini = Math.min(root.data, Math.min(left.mini, right.mini));
+        int maxi = Math.max(root.data, Math.max(left.maxi, right.maxi));
+        
+        boolean isBST = (left.isBST && right.isBST && root.data > left.maxi && root.data < right.mini);
+        
+        int size = isBST ? left.size + right.size + 1 : 0;
+        
+        ans[0] = Math.max(ans[0], size);
+        
+        return new Info(maxi, mini, isBST, size);
+    }
+    
+    static int largestBst(Node root) {
+        if (root == null) return 0;
+        
+        int[] maxSize = new int[1];
+        solve(root, maxSize);
+        return maxSize[0];
+    }
+}
