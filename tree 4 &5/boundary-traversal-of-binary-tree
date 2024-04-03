@@ -1,0 +1,77 @@
+/************************************************************
+
+ Following is the Binary Tree node structure:
+
+ class TreeNode {
+     int data;
+     TreeNode left;
+     TreeNode right;
+
+     TreeNode(int data) {
+         this.data = data;
+         this.left = null;
+         this.right = null;
+     }
+ }
+
+ ************************************************************/
+
+import java.util.List;
+import java.util.*;
+
+public class Solution {
+    // Functions to traverse on each part.
+    public static List<Integer> traverseBoundary(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        if (root == null) {
+            return ans;
+        }
+        ans.add(root.data);
+        leftb(root.left, ans);
+
+        helper(root.left, ans);
+        helper(root.right, ans);
+
+        rightb(root.right, ans);
+
+        return ans;
+    }
+
+    public static void leftb(TreeNode root,List<Integer> ans) {
+        if (root == null || (root.left == null && root.right == null)) {
+            return;
+        }
+        ans.add(root.data);
+        if (root.left != null) {
+            leftb(root.left, ans);
+        }
+        else {
+            leftb(root.right, ans);
+        }
+    }
+
+    public static void rightb(TreeNode root, List<Integer> ans) {
+        if (root == null || (root.left == null && root.right == null)) {
+            return;
+        }
+         if (root.right != null) {
+            rightb(root.right, ans);
+        }
+        else {
+            rightb(root.left, ans);
+        }
+        ans.add(root.data);
+    }
+
+    public static void helper(TreeNode root, List<Integer> ans) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            ans.add(root.data);
+            return;
+        }
+        helper(root.left, ans);
+        helper(root.right, ans);
+    }
+}
