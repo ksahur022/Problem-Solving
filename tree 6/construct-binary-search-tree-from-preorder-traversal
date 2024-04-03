@@ -1,0 +1,29 @@
+class Solution {
+    public TreeNode bstFromPreorder(int[] preorder) {
+        int n=preorder.length;
+        return helper(preorder, 0,n-1);   
+    }
+    
+    private TreeNode helper(int[] preorder, int low, int high) {
+        if (low>high) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[low]);
+        int p= findPartition(preorder,root.val,low+1,high);
+        root.left = helper(preorder,low+1,p-1);
+        root.right = helper(preorder,p,high);
+        return root;        
+    }
+    
+    private int findPartition(int[] preorder,int t,int low,int high) {
+        while (low<=high) {
+            int mid=low+(high-low)/2;
+            if (preorder[mid]>t) {
+               high=mid-1;
+            } else {
+                low=mid+1;
+            }
+        }
+        return low;
+    }
+}
