@@ -1,0 +1,55 @@
+class Solution {
+    class Node{
+        Node[] children=new Node[26];
+        boolean eow=false;
+        int precount=0;
+        
+        Node(){
+            for(int i=0;i<26;i++){
+                children[i]=null;
+            }
+        }
+    }
+
+    Node root=new Node();
+    public void insert(String words) {
+         Node curr=root;
+        for(int i=0;i<words.length();i++){
+            int idx=words.charAt(i)-'a';
+            if(curr.children[idx]==null){
+                curr.children[idx]=new Node();
+            }
+            if(i==words.length()-1){
+                curr.children[idx].eow=true;
+            }
+            curr=curr.children[idx];
+            curr.precount++; 
+        }
+    
+    }
+public int startWordPrefix(String s){
+    Node curr=root;
+    int c=0;
+    for(int i=0;i<s.length();i++){
+        int idx=s.charAt(i)-'a';
+        if(curr.children[idx]==null){
+            break;
+        }
+        curr=curr.children[idx];
+        c+=curr.precount;
+    }
+    return c;
+}    
+    public int[] sumPrefixScores(String[] words) {
+        int[] ans=new int[words.length];
+        int i=0;
+        for(String word:words){
+            insert(word);
+        }
+        for(String word:words){
+            int cnt=startWordPrefix(word);
+            ans[i++]=cnt;
+        }
+        return ans;
+    }
+}
