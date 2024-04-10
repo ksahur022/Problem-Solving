@@ -1,0 +1,66 @@
+class Solution {
+
+    static class Node{
+        Node zero,one;
+    }
+
+static void insert(Node root,int n){
+    Node curr=root;
+    for(int i=31;i>=0;i--){
+        int bit=(n>>i)&1;
+        if(bit==0){
+            if(curr.zero==null){
+                Node newnode=new Node();
+                curr.zero=newnode;
+            }
+            curr=curr.zero;
+        }
+            else{
+                if(curr.one==null){
+                    Node newnode=new Node();
+                    curr.one=newnode;
+                }
+            curr=curr.one;    
+            
+        }
+    }
+}
+public static int findmaxxor(Node root,int n){
+    Node curr=root;
+    int ans=0;
+    for(int i=31;i>=0;i--){
+        int bit=(n>>i)&1;
+        if(bit==1){
+            if(curr.zero!=null){
+                ans+=(1<<i);
+                curr=curr.zero;
+            }
+            else{
+                curr=curr.one;
+            }
+        }
+        else{
+            if(curr.one!=null){
+                ans+=(1<<i);
+                curr=curr.one;
+            }
+            else{
+                curr=curr.zero;
+            }
+        }
+        
+    }return ans;
+    
+}
+    public int findMaximumXOR(int[] nums) {
+       Node root=new Node();
+       int ans=0;
+       for(int i=0;i<nums.length;i++){
+            insert(root,nums[i]);
+       } 
+        for(int i=0;i<nums.length;i++){
+           ans=Math.max(ans,findmaxxor(root,nums[i]));
+       } 
+ return ans;      
+    }
+}
