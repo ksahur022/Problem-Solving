@@ -1,0 +1,98 @@
+import java.util.*;
+class Sol {
+ class Trie {
+        Map<Character, Trie> children;
+        char character;
+        boolean eow=false;
+
+        public Trie(char character) {
+            this.character = character;
+            children = new HashMap<>();
+        }
+
+        public Trie() {
+            children = new HashMap<>();
+        }
+
+        public void insertWord(String word) {
+            if (word == null || word.isEmpty())
+                return;
+            char firstChar = word.charAt(0);
+            Trie child = children.get(firstChar);
+            if (child == null) {
+                child = new Trie(firstChar);
+                children.put(firstChar, child);
+            }
+
+            if (word.length() > 1)
+                child.insertWord(word.substring(1));
+            else
+                child.eow = true;
+    }
+}
+
+    Trie rootNode;
+
+    public Sol(List<String> inputWords) {
+        rootNode = new Trie();
+        for (String word : inputWords)
+            rootNode.insertWord(word);
+
+    }
+
+    public boolean searchWord(String prefix, boolean exact) {
+        Trie lastNode = rootNode;
+        for (char c : prefix.toCharArray()) {
+            lastNode = lastNode.children.get(c);
+            if (lastNode == null)
+                return false;
+        }
+        return !exact || lastNode.eow;
+    }
+
+    public boolean searchWord(String prefix) {
+        return searchWord(prefix, false);
+    }
+
+    public void suggestWordsHelper(Trie root, List<String> resultList, StringBuffer current) {
+        if (root.eow) {
+            resultList.add(current.toString());
+        }
+
+        if (root.children == null || root.children.isEmpty())
+            return;
+
+        for (Trie child : root.children.values()) {
+            suggestWordsHelper(child, resultList, current.append(child.character));
+            current.setLength(current.length() - 1);
+        }
+    }
+
+    public List<String> suggestWords(String prefix) {
+        List<String> resultList = new ArrayList<>();
+        Trie lastNode = rootNode;
+        StringBuffer currentPrefix = new StringBuffer();
+        for (char c : prefix.toCharArray()) {
+            lastNode = lastNode.children.get(c);
+            if (lastNode == null)
+                return resultList;
+            currentPrefix.append(c);
+        }
+        suggestWordsHelper(lastNode, resultList, currentPrefix);
+        return resultList;
+    }
+
+    public static void main(String[] args) {
+        List<String> inputWords = List.of("apple", "banana", "application", "book", "bat", "batter", "cat", "car");
+        Sol sol = new Sol(inputWords);
+
+        System.out.println(sol.suggestWords("ba"));
+    }
+}
+
+
+-------------output
+java -cp /tmp/Mohq9Ewt98/Sol
+[bat, batter, banana]
+
+=== Code Execution Successful ===
