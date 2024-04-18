@@ -1,0 +1,26 @@
+class Solution {
+    public static boolean isCyclicUtil(List<ArrayList<Integer>> adj, boolean[] visited, int curr) {
+        if (visited[curr]) return true;
+
+        visited[curr] = true;
+        boolean flag = false;
+        for (int neighbor : adj.get(curr)) {
+            flag = isCyclicUtil(adj, visited, neighbor);
+            if (flag) return true;
+        }
+        return false;
+    }
+
+    public static boolean isCyclic(int V, List<ArrayList<Integer>> adj) {
+        boolean[] visited = new boolean[V];
+        boolean flag = false;
+        for (int i = 0; i < V; i++) {
+            visited[i] = true;
+            for (int neighbor : adj.get(i)) {
+                flag = isCyclicUtil(adj, visited, neighbor);
+                if (flag) return true;
+            }
+            visited[i] = false;
+        }
+        return false;
+    }
