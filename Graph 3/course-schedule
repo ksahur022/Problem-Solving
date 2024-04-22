@@ -1,0 +1,40 @@
+class Solution {
+    public boolean canFinish(int n, int[][] pre) {
+        boolean[] vis=new boolean[n];
+        boolean[] currvis=new boolean[n];
+        List<Integer>[] adj=new ArrayList[n];
+        for(int i=0;i<n;i++){
+            adj[i]=new ArrayList<>();
+        }
+        for(int[] data:pre){
+            int u=data[0];
+            int v=data[1];
+            adj[u].add(v);
+        }
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                if(dfs(i,vis,currvis,adj)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean dfs(int i,boolean[] vis,boolean[] currvis,List<Integer>[] adj){
+        vis[i]=true;
+        currvis[i]=true;
+        List<Integer> newl=adj[i];
+        for(int l:newl){
+            if(!vis[l]){
+                if(dfs(l,vis,currvis,adj)){
+                    return true;
+                }
+            }
+            if(vis[l] && currvis[l]){
+                return true;
+            }
+        }
+        currvis[i]=false;
+        return false;
+    }
+}
