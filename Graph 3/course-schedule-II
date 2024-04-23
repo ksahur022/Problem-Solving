@@ -1,0 +1,48 @@
+class Solution {
+    LinkedList<Integer> stack = new LinkedList<>();
+
+    public int[] findOrder(int n, int[][] pre) {
+        List<Integer>[] adj = new ArrayList[n];
+        boolean[] vis = new boolean[n];
+        boolean[] currvis = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            adj[i] = new ArrayList<>();
+        }
+        for (int[] data : pre) {
+            int u = data[0];
+            int v = data[1];
+            adj[u].add(v);
+        }
+        for (int i=0;i<n;i++) {
+            if (!vis[i]) {
+                if (dfs(i, vis, currvis, adj)) {
+                    return new int[0];
+                }
+            }
+        }
+        int[] res = new int[stack.size()];
+        int k = 0;
+        while (!stack.isEmpty()) {
+            res[k++] = stack.removeLast(); 
+        }
+        return res;
+    }
+
+    public boolean dfs(int node, boolean[] vis, boolean[] currvis, List<Integer>[] adj) {
+        vis[node] = true;
+        currvis[node] = true;
+        List<Integer> newl = adj[node];
+        for (int l : newl) {
+            if (!vis[l]) {
+                if (dfs(l, vis, currvis, adj)) {
+                    return true;
+                }
+            } else if (currvis[l] && vis[l]) {
+                return true;
+            }
+        }
+        stack.push(node);
+        currvis[node] = false;
+        return false;
+    }
+}
