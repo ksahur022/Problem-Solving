@@ -1,0 +1,57 @@
+class Solution {
+    public int findRadius(int[] houses, int[] heaters) {
+        Arrays.sort(heaters);
+        int minval=Integer.MAX_VALUE;
+        int max=Integer.MIN_VALUE;
+        for(int i=0;i<houses.length;i++){
+            int fv=floor(houses[i],heaters);
+            int cv=ceilv(houses[i],heaters);
+            int floordiff=Math.abs(houses[i]-fv);
+            int ceildiff=(Math.abs(houses[i]-cv));
+            minval=Math.min(floordiff,ceildiff);
+            max=Math.max(minval,max);
+
+        }  
+        return max;
+        
+    }
+    public int floor(int k, int[] arr) {
+        int l=0;
+        int h=arr.length-1;
+        
+        while(l<=h) {
+            int mid=l+(h-l)/2;           
+            if (arr[mid]==k) {
+                return arr[mid];
+            } else if (arr[mid]<k) {
+                l=mid+1;
+            }
+            else{
+                h=mid-1;
+            }
+        }       
+        if (h<0) {
+            return arr[0]; 
+        }
+        return arr[h];
+    }
+    
+    public int ceilv(int k, int[] arr) {
+        int l = 0;
+        int h = arr.length - 1;
+        while (l <= h) {
+            int mid = l + (h - l) / 2;            
+            if (arr[mid] == k) {
+                return arr[mid];
+            } else if (arr[mid] > k) {
+                h = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }      
+        if (l >= arr.length) {
+            return arr[arr.length - 1];
+        }        
+        return arr[l];
+    }
+}
