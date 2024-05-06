@@ -1,0 +1,79 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if (nums.length==0) {
+            return 0;
+        }
+        int n=nums.length;
+        int[] dp=new int[n]; 
+        dp[0]=1;
+        int ans=1; 
+
+        for (int i=1;i<n;i++) {
+            int maxLissize=0; 
+            for (int j=0;j<i;j++) {
+                if (nums[i]>nums[j]) {
+                    maxLissize=Math.max(maxLissize,dp[j]); 
+                }
+            }
+            dp[i]=maxLissize+1; 
+            ans=Math.max(ans,dp[i]);
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+//--------------MEOMIZATION
+
+/*class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n=nums.length;
+        helper(nums,0,n-1,new int[n]);
+        return max;
+    }
+    int max = 1;
+    public int helper(int[] arr,int idx,int n,int[] dp){
+        if(idx==n){
+            dp[idx]=1;
+            return idx;
+        }
+        if(dp[idx]!=0){
+            return idx;
+        }
+        int c=0;
+        for(int i=idx+1;i<=n;i++){
+            int temp=helper(arr,i,n,dp);
+            if(arr[idx]<arr[temp]){
+                c=Math.max(c,dp[temp]);
+            }
+        }
+        dp[idx]=c+1;
+        max=Math.max(max,dp[idx]);
+        return idx;
+    }
+}*/
+
+
+
+//------------------RECURSION
+
+/*class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int ans=helper(0,-1,nums);
+        return ans;
+    }
+    public int helper(int idx,int prev,int[] arr){
+        if(idx==arr.length){
+            return 0;
+        }
+        int not_take=0+helper(idx+1,prev,arr);
+        int take=0;
+        if(prev==-1 || arr[idx]>arr[prev]){
+            take=1+helper(idx+1,idx,arr);
+        }
+        return Math.max(take,not_take);
+    }
+}*/
