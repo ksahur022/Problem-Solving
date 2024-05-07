@@ -1,0 +1,77 @@
+class Solution {
+    public int[] findRedundantDirectedConnection(int[][] edges) {
+        int n=edges.length;
+        UnionFind uf=new UnionFind(n);
+        int[] indegree=new int[n+1];
+        for (int[] edge:edges) {
+            indegree[edge[1]]++;
+        }
+        Stack<Integer> st=new Stack<>();
+        for (int i=0;i<n;i++) {
+            if(indegree[edges[i][1]]==2) {
+                st.push(i);
+            }
+        }
+        if(!st.isEmpty()) {
+            if(isTreeAfterRemoveEdge(edges,st.peek())) {
+                return edges[st.pop()];
+            }
+            st.pop();
+            return edges[st.pop()];
+        } 
+        else{
+            for(int i=0;i<n;i++) {
+                int[] edge=edges[i];
+                if (uf.isConnected(edge[0],edge[1])) {
+                    return edges[i];
+                } 
+                else{
+                    uf.union(edge[0],edge[1]);
+                }
+            }
+        }
+        return new int[2];
+    }
+
+    public boolean isTreeAfterRemoveEdge(int[][] edges, int deleteEdgeIndex) {
+        UnionFind uf=new UnionFind(edges.length);
+        for (int i=0;i<edges.length;i++) {
+            if (i==deleteEdgeIndex) 
+            continue;
+            int[] edge=edges[i];
+            uf.union(edge[0],edge[1]);
+        }
+        return uf.isConnected(edges[deleteEdgeIndex][0],edges[deleteEdgeIndex][1]);
+    }
+}
+
+class UnionFind {
+    int[] root;
+    int size;
+
+    UnionFind(int n) {
+        root = new int[n+1];
+        for (int i = 1; i <= n; i++) {
+            root[i] = i;
+        }
+    }
+
+    public int find(int x) {
+        if (x != root[x]) {
+            root[x] = find(root[x]);
+        }
+        return root[x];
+    }
+
+    public void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        if (rootX != rootY) {
+            root[rootX] = rootY;
+        }
+    }
+
+    public boolean isConnected(int x, int y) {
+        return find(x) == find(y);
+    }
+}
