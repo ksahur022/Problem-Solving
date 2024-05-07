@@ -1,0 +1,87 @@
+class Pair {
+    int node;
+    int distance;
+    public Pair(int node, int distance){
+        this.node=node;
+        this.distance=distance;
+    }
+}
+
+class Solution {
+        public boolean[] findAnswer(int n,int[][] edges) {
+        boolean []result=new boolean[edges.length];
+
+        ArrayList<ArrayList<Pair>> adj=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int[] edge:edges){
+            int u=edge[0];
+            int v=edge[1];
+            int w=edge[2];
+            adj.get(u).add(new Pair(v,w));
+            adj.get(v).add(new Pair(u,w));
+        }
+
+        int[] dist=helper(n,adj);
+
+        HashSet<String> set=new HashSet<>();
+        Queue<Pair> queue=new LinkedList<>();
+        queue.add(new Pair(n-1,dist[n-1]));
+        while(!queue.isEmpty()){
+            Pair p=queue.poll();
+            int currNode=p.node,currDist=p.distance;
+            for(Pair neighbor:adj.get(currNode)){
+                if(neighbor.distance+dist[neighbor.node]==currDist){
+                    String setKey;
+                    if (neighbor.node<currNode){
+                        setKey = neighbor.node + "_" + currNode;
+                    }else{
+                        setKey = currNode + "_" + neighbor.node;
+                    }
+                    set.add(setKey);
+                    queue.add(new Pair(neighbor.node, dist[neighbor.node]));
+                }
+            }
+        }
+
+        int index = 0;
+        for(int[] edge : edges){
+            String setKey;
+            if (edge[0] < edge[1]){
+                setKey = edge[0] + "_" + edge[1];
+            }else {
+                setKey = edge[1] + "_" + edge[0];
+            }
+            if(set.contains(setKey)){
+                result[index] = true;
+            }
+            index++;
+        }
+
+        return result;
+    }
+
+    public int[] helper(int V, ArrayList<ArrayList<Pair>> adj){
+        PriorityQueue<Pair> pq = new PriorityQueue<>((x, y) -> x.distance - y.distance);
+        int dist[] = new int[V];
+        Arrays.fill(dist,Integer.MAX_VALUE);
+        dist[0] = 0;
+        pq.add(new Pair(0,0));
+        while (!pq.isEmpty()){
+            Pair topNode = pq.poll();
+            int currDist = topNode.distance;
+            int currNode = topNode.node;
+
+            for(Pair neighbor : adj.get(currNode)){
+                int newDist = neighbor.distance + currDist;
+                if(newDist < dist[neighbor.node]){
+                    dist[neighbor.node] = newDist;
+                    pq.add(new Pair(neighbor.node, newDist));
+                }
+            }
+
+        }
+        return dist;
+    }
+}
