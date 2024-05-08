@@ -1,4 +1,4 @@
-class Solution {
+/*class Solution {
     public int climbStairs(int n) {
         if(n<=0)
         return 0;
@@ -13,4 +13,21 @@ class Solution {
         return dp[n];
         
     }
-}
+}*/
+
+class Solution {
+    public int climbStairs(int n) {
+        return(n);
+    }
+    public int helper(int i){
+        if(i==0){
+            return 0;
+        }
+        if(i==1){
+            return 1;
+        }
+        int left=helper(i-1);
+        int right=helper(i-2);
+        return(left+right);
+    }
+}        
