@@ -1,0 +1,59 @@
+class Solution {
+    public int rob(int[] nums) {
+        int n=nums.length;
+        int[] dp=new int[n+1];
+        dp[0]=nums[0];
+        for(int i=1;i<n;i++){
+            int take=nums[i];
+            if(i>1){
+                take+=dp[i-2];
+            }
+            int not_take=dp[i-1];
+            dp[i]=Math.max(take,not_take);
+
+        }
+        return dp[n-1];
+    }
+}        
+
+//Memoization----------
+
+/*class Solution {
+    public int rob(int[] nums) {
+       int n=nums.length;
+       int[] dp=new int[n];
+       return helper(n-1,nums,dp);
+    }
+    public int helper(int i,int arr[],int[] dp){
+        if(i==0){
+            return arr[0];
+        }
+        if(i<0){
+            return 0;
+        }
+        int pick=arr[i]+helper(i-2,arr,dp);
+        int not_pick=helper(i-1,arr,dp);
+        return dp[i]=Math.max(pick,not_pick);
+    }
+}
+
+
+//Recursion------------
+
+
+/*class Solution {
+    public int rob(int[] nums) {
+        return helper(nums.length-1,nums);
+    }
+    public int helper(int i,int[] nums){
+        if(i==0){
+            return nums[i];
+        }
+        if(i<0){
+            return 0;
+        }
+        int pick=nums[i]+helper(i-2,nums);
+        int not_pick=helper(i-1,nums);
+        return Math.max(pick,not_pick);
+    }
+}*/
