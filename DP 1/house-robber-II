@@ -1,0 +1,56 @@
+class Solution {
+    public int rob(int[] nums) {
+        int[] temp1=new int[nums.length-1];
+        int[] temp2=new int[nums.length-1];
+        if (nums.length==1)
+        return nums[0];
+        for (int i=0;i<nums.length-1;i++)
+        {
+            temp1[i]=nums[i];
+            temp2[i]=nums[i+1];
+        }
+        return Math.max(helper(temp1),helper(temp2));
+    }
+    public int helper(int[] arr)
+    {
+        int[] dp = new int[arr.length];
+        dp[0]=arr[0];
+        for (int i=1;i<arr.length;i++)
+        {
+            int pick=arr[i];
+            if (i>1)
+            pick = pick+dp[i-2];
+            int notpick = dp[i-1];
+            dp[i]=Math.max(pick,notpick);
+        }
+        return dp[arr.length-1];
+    }
+}
+
+MEMOIZATION
+
+class Solution {
+    public int rob(int[] nums) {
+        int n=nums.length;
+        int[] dp=new int[n+1];
+        if(n==1){
+            return nums[0];
+        }
+        Arrays.fill(dp,-1);
+        int temp1=helper(0,n-1,nums,dp);
+        Arrays.fill(dp,-1);
+        int temp2=helper(1,n,nums,dp);
+        return Math.max(temp1,temp2);
+    }
+    public int helper(int idx,int n,int[] nums,int[] dp){
+        if(idx>=n){
+            return 0;
+        }
+        if(dp[idx]!=-1){
+            return dp[idx];
+        }
+        int take=nums[idx]+helper(idx+2,n,nums,dp);
+        int not_take=0+helper(idx+1,n,nums,dp);
+        return Math.max(take,not_take);
+    }
+}
