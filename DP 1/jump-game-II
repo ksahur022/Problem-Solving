@@ -1,0 +1,45 @@
+class Solution {
+    public int jump(int[] nums) {
+       int n=nums.length;
+        int[] dp=new int[n];
+        Arrays.fill(dp,99999);
+        dp[0]=0;
+        for (int i=0;i<n;i++) {
+            for (int j=1;j<=nums[i] && i+j<n;j++) {
+                dp[i+j]=Math.min(dp[i+j],dp[i]+1);
+            }
+        }
+        return dp[n-1];
+    }
+}
+
+----------------------------------
+
+class Solution {
+    public int jump(int[] nums) {
+     int n= nums.length;
+     int dp[]= new int[n+1];
+     Arrays.fill(dp,-1); 
+    return jump(0,n,nums,dp);
+    }
+    int  jump(int ind,int n,int nums[],int dp[])
+    {
+        int ans=0;
+        int  min=99999;
+        if(ind>=n-1)
+        {
+            return 0;
+        }
+        if(dp[ind]!=-1)
+        {
+            return dp[ind];
+        }
+        for(int i=1;i<=nums[ind];i++)
+        {
+            ans= (1+jump(ind+i,n,nums,dp));
+            min= Math.min(ans,min);
+        }
+        dp[ind]= min;
+        return dp[ind];
+    }
+}
