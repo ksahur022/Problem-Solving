@@ -1,3 +1,5 @@
+TABULATION--------------------
+
 class Solution {
     public int rob(int[] nums) {
         int[] temp1=new int[nums.length-1];
@@ -27,7 +29,7 @@ class Solution {
     }
 }
 
-MEMOIZATION
+MEMOIZATION-----------------------------
 
 class Solution {
     public int rob(int[] nums) {
