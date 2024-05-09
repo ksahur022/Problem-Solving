@@ -1,6 +1,65 @@
 class Solution {
     public int numDecodings(String s) {
         int n=s.length();
+        int[] dp=new int[n+1];
+        dp[n]=1;
+        for(int i=n-1;i>=0;i--){
+            char ch=s.charAt(i);
+            if(ch=='0'){
+                dp[i]=0;
+            }
+            else{
+                dp[i]=dp[i+1];
+            }
+            if(i+1<n){
+                if(ch=='1' || (ch=='2' && s.charAt(i+1)<='6')){
+                    dp[i]=dp[i+1]+dp[i+2];
+                }
+            }
+        }
+        return dp[0];
+    }
+}
+
+-------------------------------------------------MEMOIZATI0N----------------------------------------
+
+
+class Solution {
+    public int numDecodings(String s) {
+        int[] dp=new int[100];
+        int n=s.length();
+        Arrays.fill(dp,-1);
+        return helper(0,s,n,dp);
+    }
+    public int helper(int idx,String s,int n,int[] dp){
+         if(idx==n){
+            return dp[idx]=1;
+        }
+        if(dp[idx]!=-1){
+            return dp[idx];
+        }
+        if(s.charAt(idx)=='0'){
+            return dp[idx]=0;
+        }
+        int res=helper(idx+1,s,n,dp);
+        if(idx+1<n){
+            char ch=s.charAt(idx);
+            if(ch=='1' || (ch=='2' && s.charAt(idx+1)<='6')){
+                res+=helper(idx+2,s,n,dp);
+            }
+
+        }
+        return dp[idx]=res;
+    }
+}
+
+
+-------------------------------------------------RECURSION----------------------------------------------------------------
+
+
+class Solution {
+    public int numDecodings(String s) {
+        int n=s.length();
         return helper(0,s,n);
 
     }
