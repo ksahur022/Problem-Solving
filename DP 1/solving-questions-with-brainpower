@@ -1,0 +1,53 @@
+TABULATION----------------------------------
+class Solution {
+    public long mostPoints(int[][] questions) {
+        long[] dp=new long[questions.length+1];
+        Arrays.fill(dp,0);
+        for(int i=questions.length-1;i>=0;i--){
+            int u=questions[i][0];
+            int v=questions[i][1];
+            int take=Math.min(questions.length,i+v+1);
+            dp[i]=Math.max(dp[i+1],u+dp[take]);
+        }
+        return dp[0];
+    }
+}
+
+MEMOIZATION---------------------------------------------
+
+class Solution {
+    public long mostPoints(int[][] questions) {
+        long[] dp=new long[questions.length];
+        Arrays.fill(dp,-1);
+        return helper(0,questions,dp);
+    }
+    public long helper(int idx,int[][] arr,long[] dp){
+        if(idx>=arr.length){
+            return 0;
+        }
+        if(dp[idx]!=-1){
+            return dp[idx];
+        }
+        long take=arr[idx][0]+helper(1+idx+arr[idx][1],arr,dp);
+        long not_take=helper(idx+1,arr,dp);
+        return dp[idx]= Math.max(take,not_take);
+    }
+}
+
+RECURSION------------------------------
+
+
+class Solution {
+    public long mostPoints(int[][] questions) {
+        int ans=helper(0,questions);
+        return (long)ans;
+    }
+    public int helper(int idx,int[][] arr){
+        if(idx>=arr.length){
+            return 0;
+        }
+        int take=arr[idx][0]+helper(1+idx+arr[idx][1],arr);
+        int not_take=helper(idx+1,arr);
+        return Math.max(take,not_take);
+    }
+}
