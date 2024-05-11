@@ -1,0 +1,30 @@
+class Solution {
+    int MOD = 1_000_000_007; 
+    Integer[][] dp;
+
+    private int solveMemo(int n, int k, int target){
+        if(n==0){
+            if(target==0) {
+                return 1;
+            }
+            return 0;
+        }
+
+        if(dp[n][target] != null){
+            return dp[n][target];
+        }
+
+        int res=0;
+        for(int i=1; i<=k; i++){
+            if(target-i >= 0){
+                res = (res + solveMemo(n-1, k, target-i))%MOD;
+            }
+        }
+        return dp[n][target]=res;
+    }
+
+    public int numRollsToTarget(int n, int k, int target) {
+        dp = new Integer[n+1][target+1];
+        return solveMemo(n, k, target);
+    }
+}
