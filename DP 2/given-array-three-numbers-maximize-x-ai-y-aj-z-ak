@@ -1,0 +1,36 @@
+class Solution{
+
+    static int maximizeExpression(int array[],int size,int x,int y, int z) {
+        int leftMax[]=new int[size];
+        leftMax[0]=x*array[0];
+
+        for (int i = 1; i < size; i++) {
+            leftMax[i]=Math.max(leftMax[i - 1],x*array[i]);
+        }
+
+        int rightMax[] = new int[size];
+        rightMax[size-1]=z*array[size-1];
+
+        for (int i=size-2;i>=0;i--) {
+            rightMax[i]=Math.max(rightMax[i + 1],z*array[i]);
+        }
+
+        int maxSum=Integer.MIN_VALUE;
+
+        for (int i=0;i<size;i++) {
+            int currentSum=leftMax[i]+y*array[i]+rightMax[i];
+            maxSum=Math.max(maxSum,currentSum);
+        }
+
+        return maxSum;
+    }
+
+    public static void main(String[] args) {
+        int array[] = {-1, -2, -3, -4, -5};
+        int size = array.length;
+        int x=1;
+        int y=2;
+        int z=-3;
+        System.out.println(maximizeExpression(array, size,x,y,z));
+    }
+}
