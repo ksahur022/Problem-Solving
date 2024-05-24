@@ -1,0 +1,79 @@
+class Solution{
+    public int calculateMinimumHP(int[][] dungeon) {
+        int m=dungeon.length;
+        int n=dungeon[0].length;
+        int[][] dp=new int[m][n];
+        dp[m-1][n-1]=Math.max(1,1-dungeon[m-1][n-1]);
+
+        for (int i=m-2;i>=0;i--) {
+            dp[i][n-1] = Math.max(1,dp[i+1][n-1]-dungeon[i][n-1]);
+        }
+        for (int j=n-2;j>=0;j--) {
+            dp[m-1][j]=Math.max(1,dp[m-1][j+1]-dungeon[m-1][j]);
+        }
+        for (int i=m-2;i>=0;i--) {
+            for (int j=n-2;j>=0;j--) {
+                int r=Math.max(1,dp[i][j+1]-dungeon[i][j]);
+                int d=Math.max(1,dp[i+1][j]-dungeon[i][j]);
+                dp[i][j]=Math.min(r,d);
+            }
+        }
+
+        return dp[0][0];
+    }
+}    
+
+//--------------MEMOIZATION-------------
+
+/*class Solution{
+    public int calculateMinimumHP(int[][] dungeon) {
+        int m=dungeon.length;
+        int n=dungeon[0].length;
+        int[][] dp=new int[m][n];
+        for (int[] row:dp) {
+            Arrays.fill(row, -1);
+        }
+        return helper(dungeon,0,0,dp);
+    }
+
+    public int helper(int[][] arr,int row,int col,int[][] dp) {
+        int m=arr.length;
+        int n=arr[0].length;
+        if (row>=m || col>=n) {
+            return Integer.MAX_VALUE;
+        }
+        if (dp[row][col]!=-1) {
+            return dp[row][col];
+        }
+        if (row==m-1 && col==n-1){
+            dp[row][col]=Math.max(1,1-arr[row][col]);
+            return dp[row][col];
+        }
+        int r=helper(arr,row,col+1,dp);
+        int d=helper(arr,row+1,col,dp);
+        int min=Math.min(r,d)-arr[row][col];
+        dp[row][col]=Math.max(1,min);
+        return dp[row][col];
+    }
+}
+*/
+
+//-----------RECURSION---------
+
+/*class Solution {
+    public int calculateMinimumHP(int[][] dungeon) {
+        return helper(dungeon,0,0);
+    }
+    public int helper(int[][] arr,int row,int col) {
+        if (row>=arr.length || col>=arr[0].length) {
+            return Integer.MAX_VALUE;
+        }
+        if (row==arr.length-1 && col==arr[0].length-1) {
+            return Math.max(1,1-arr[row][col]);
+        }
+        int r=helper(arr,row,col+1);
+        int d=helper(arr,row+1,col);
+        int min=Math.min(r,d)-arr[row][col];
+        return Math.max(1,min);
+    }
+}*/
